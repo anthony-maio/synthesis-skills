@@ -1,0 +1,8 @@
+{
+  "kind": "first_party",
+  "author": "Anthony Maio",
+  "source": "D:/Development/pieces-agent-skills/deep-research-synthesizer",
+  "upstream": "https://github.com/anthony-maio/pieces-agent-skills/tree/main/deep-research-synthesizer",
+  "source_license": "MIT",
+  "notes": "Curated from a separate Anthony Maio skill repository and normalized for the canonical Synthesis registry."
+}

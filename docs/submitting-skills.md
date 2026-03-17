@@ -6,6 +6,7 @@ This repository is the canonical curated landing zone for Synthesis skills.
 
 - A skill directory under `skills/<skill-name>/`
 - A `SKILL.md` with `name` and `description` front matter
+- A `PROVENANCE.json` describing origin and authorship
 - Helper code only when the skill actually needs it
 - Provenance notes in the PR description when material was adapted from another source
 

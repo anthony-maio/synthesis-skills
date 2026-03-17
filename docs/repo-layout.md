@@ -16,10 +16,11 @@ Each skill package must look like:
 ```text
 skills/<skill-name>/
 ├── SKILL.md
+├── PROVENANCE.json
 ├── scripts/        # optional
 ├── assets/         # optional
 ├── references/     # optional
 └── agents/         # optional
 ```
 
-The repo does not require a second manifest file. Machine-readable search metadata is generated into the catalog.
+`PROVENANCE.json` records origin, authorship, and licensing context without bloating `SKILL.md`. Machine-readable search metadata is generated into the catalog.

@@ -24,6 +24,7 @@ synthesis-skills/
 
 - Each skill lives at `skills/<skill-name>/`.
 - Each skill must include `SKILL.md`.
+- Each skill must include `PROVENANCE.json`.
 - Optional directories are `scripts/`, `assets/`, `references/`, and `agents/`.
 - Skill front matter is intentionally small: `name` and `description`.
 - `description` must start with `Use when`.
@@ -55,7 +56,7 @@ This repository primarily stores curated `TRUSTED` skills plus the automation ne
 
 1. Open a PR that adds or updates a skill under `skills/`.
 2. Run validation and regenerate the catalog.
-3. Include provenance, intended host agents, and any helper scripts in the PR.
+3. Include `PROVENANCE.json`, intended host agents, and any helper scripts in the PR.
 4. Let CI and review decide whether the skill should merge.
 
 More detail lives in [docs/submitting-skills.md](docs/submitting-skills.md).
