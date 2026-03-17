@@ -59,3 +59,7 @@ This repository primarily stores curated `TRUSTED` skills plus the automation ne
 4. Let CI and review decide whether the skill should merge.
 
 More detail lives in [docs/submitting-skills.md](docs/submitting-skills.md).
+
+## Seeding
+
+If you are bootstrapping the first curated set, use [docs/seeding.md](docs/seeding.md). The short version is to start with a small founding set of high-signal skills, keep provenance explicit, and treat the first 10 to 20 merged skills as the quality bar for the registry.
