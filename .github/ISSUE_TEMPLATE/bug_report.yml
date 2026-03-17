@@ -1,0 +1,21 @@
+name: Registry Bug
+description: Report catalog, validation, or repo automation problems.
+title: "[bug] "
+labels:
+  - bug
+  - triage
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is broken?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Commands or steps to reproduce the issue.
+    validations:
+      required: true

@@ -1,0 +1,61 @@
+# Synthesis Skills
+
+Canonical curated skill repository for Synthesis.
+
+This repo is the public review and distribution layer for skill-first self-extension. It keeps the registry model simple:
+
+1. Skills live as normal directories under `skills/`.
+2. Metadata is derived from `SKILL.md` and package structure.
+3. `catalog/skills.json` is generated for machine search.
+4. Pull requests are the curation and trust-promotion path.
+
+## Repository Layout
+
+```text
+synthesis-skills/
+├── skills/                  # Curated skill packages
+├── catalog/                 # Generated machine-readable search metadata
+├── scripts/                 # Validation and catalog generation
+├── tests/                   # Registry automation tests
+└── .github/                 # CI and contribution templates
+```
+
+## Skill Package Rules
+
+- Each skill lives at `skills/<skill-name>/`.
+- Each skill must include `SKILL.md`.
+- Optional directories are `scripts/`, `assets/`, `references/`, and `agents/`.
+- Skill front matter is intentionally small: `name` and `description`.
+- `description` must start with `Use when`.
+
+## Local Workflow
+
+```bash
+python scripts/validate_repo.py
+python scripts/build_catalog.py
+pytest -q
+```
+
+To verify that the checked-in catalog is current:
+
+```bash
+python scripts/build_catalog.py --check
+```
+
+## Governance Model
+
+- `UNTRUSTED`: local drafts in agent environments, not curated here yet
+- `PROBATION`: proposed in an open PR or being prepared for review
+- `TRUSTED`: merged curated skills in this repository
+- `VERIFIED`: reserved for system or explicitly elevated skills
+
+This repository primarily stores curated `TRUSTED` skills plus the automation needed to review new submissions.
+
+## Submission Path
+
+1. Open a PR that adds or updates a skill under `skills/`.
+2. Run validation and regenerate the catalog.
+3. Include provenance, intended host agents, and any helper scripts in the PR.
+4. Let CI and review decide whether the skill should merge.
+
+More detail lives in [docs/submitting-skills.md](docs/submitting-skills.md).

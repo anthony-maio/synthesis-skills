@@ -1,0 +1,44 @@
+{
+  "repo": "anthony-maio/synthesis-skills",
+  "schema_version": 1,
+  "skill_count": 1,
+  "skills": [
+    {
+      "name": "csv-parsing-basics",
+      "description": "Use when parsing CSV files, checking delimiters, or inspecting column headers before heavier data work.",
+      "keywords": [
+        "csv",
+        "parsing",
+        "basics",
+        "files",
+        "checking",
+        "delimiters",
+        "inspecting",
+        "column",
+        "headers",
+        "before",
+        "heavier",
+        "data",
+        "work",
+        "overview",
+        "this",
+        "skill",
+        "inspect",
+        "file",
+        "quickly",
+        "deeper",
+        "analysis",
+        "transformation",
+        "it",
+        "helps"
+      ],
+      "trust_level": "trusted",
+      "source_type": "canonical",
+      "relative_path": "skills/csv-parsing-basics",
+      "repo": "anthony-maio/synthesis-skills",
+      "package_dirs": [
+        "scripts"
+      ]
+    }
+  ]
+}

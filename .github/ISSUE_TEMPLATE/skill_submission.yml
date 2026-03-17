@@ -1,0 +1,38 @@
+name: Skill Submission
+description: Propose a new curated skill or a substantial update to an existing one.
+title: "[skill] "
+labels:
+  - skill
+  - triage
+body:
+  - type: input
+    id: skill_name
+    attributes:
+      label: Skill name
+      description: Lowercase kebab-case directory and front matter name.
+      placeholder: csv-parsing-basics
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Intended use
+      description: Describe when an agent should load this skill.
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Provenance
+      description: Link any upstream repo, docs, or internal source material.
+      placeholder: Derived from...
+    validations:
+      required: true
+  - type: textarea
+    id: package_shape
+    attributes:
+      label: Package contents
+      description: List the directories or helper files you expect in the skill package.
+      placeholder: SKILL.md, scripts/, references/
+    validations:
+      required: true
