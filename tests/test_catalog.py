@@ -8,8 +8,11 @@ ROOT = Path(__file__).resolve().parents[1]
 SEEDED_SKILLS = {
     "deep-research-synthesizer",
     "repo-surveyor",
+    "requesting-code-review",
     "systematic-debugging",
     "test-driven-development",
+    "using-git-worktrees",
+    "verification-before-completion",
     "writing-clearly-and-concisely",
     "writing-skills",
 }
@@ -27,6 +30,14 @@ def test_catalog_contains_seed_batch() -> None:
     assert deep_research["provenance"]["source_license"] == "MIT"
     assert deep_research["upstream"] == (
         "https://github.com/anthony-maio/pieces-agent-skills/tree/main/deep-research-synthesizer"
+    )
+    mirrored = next(
+        entry for entry in catalog["skills"] if entry["name"] == "requesting-code-review"
+    )
+    assert mirrored["provenance"]["kind"] == "mirrored_external"
+    assert mirrored["provenance"]["source_license"] == "MIT"
+    assert mirrored["upstream"] == (
+        "https://github.com/obra/superpowers/tree/main/skills/requesting-code-review"
     )
 
 
