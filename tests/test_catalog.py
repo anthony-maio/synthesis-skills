@@ -7,6 +7,8 @@ from scripts.catalog_tools import build_catalog, iter_skill_dirs, repo_root_from
 ROOT = Path(__file__).resolve().parents[1]
 SEEDED_SKILLS = {
     "deep-research-synthesizer",
+    "dispatching-parallel-agents",
+    "receiving-code-review",
     "repo-surveyor",
     "requesting-code-review",
     "systematic-debugging",
@@ -14,6 +16,7 @@ SEEDED_SKILLS = {
     "using-git-worktrees",
     "verification-before-completion",
     "writing-clearly-and-concisely",
+    "writing-plans",
     "writing-skills",
 }
 
@@ -39,6 +42,9 @@ def test_catalog_contains_seed_batch() -> None:
     assert mirrored["upstream"] == (
         "https://github.com/obra/superpowers/tree/main/skills/requesting-code-review"
     )
+    planning = next(entry for entry in catalog["skills"] if entry["name"] == "writing-plans")
+    assert planning["provenance"]["kind"] == "mirrored_external"
+    assert planning["upstream"] == "https://github.com/obra/superpowers/tree/main/skills/writing-plans"
 
 
 def test_skill_discovery_finds_top_level_package() -> None:

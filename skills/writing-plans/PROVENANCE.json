@@ -1,0 +1,8 @@
+{
+  "kind": "mirrored_external",
+  "author": "obra",
+  "source": "https://github.com/obra/superpowers",
+  "upstream": "https://github.com/obra/superpowers/tree/main/skills/writing-plans",
+  "source_license": "MIT",
+  "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+}
