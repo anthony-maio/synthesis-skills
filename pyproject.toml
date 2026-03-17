@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Canonical curated skill repository and automation for Synthesis."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { file = "LICENSE" }
+license = "MIT"
 authors = [{ name = "Anthony Maio" }]
 dependencies = []
 
@@ -17,6 +17,9 @@ dev = [
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+
+[tool.setuptools]
+py-modules = []
 
 [tool.ruff]
 line-length = 100
