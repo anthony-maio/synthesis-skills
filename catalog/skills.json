@@ -48,6 +48,15 @@
         "upstream": "https://github.com/anthony-maio/pieces-agent-skills/tree/main/deep-research-synthesizer",
         "source_license": "MIT",
         "notes": "Curated from a separate Anthony Maio skill repository and normalized for the canonical Synthesis registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -92,6 +101,15 @@
         "upstream": "https://github.com/obra/superpowers/tree/main/skills/dispatching-parallel-agents",
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -136,6 +154,15 @@
         "upstream": "https://github.com/obra/superpowers/tree/main/skills/receiving-code-review",
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -178,6 +205,15 @@
         "author": "Anthony Maio",
         "source": "C:/Users/Ant/.agents/skills/repo-surveyor",
         "notes": "Curated from the maintainer's local agent skill library and normalized for the canonical Synthesis registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -222,6 +258,15 @@
         "upstream": "https://github.com/obra/superpowers/tree/main/skills/requesting-code-review",
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -267,6 +312,15 @@
         "author": "Anthony Maio",
         "source": "C:/Users/Ant/.agents/skills/systematic-debugging",
         "notes": "Curated from the maintainer's local agent skill library and normalized for the canonical Synthesis registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -311,6 +365,15 @@
         "author": "Anthony Maio",
         "source": "C:/Users/Ant/.agents/skills/test-driven-development",
         "notes": "Curated from the maintainer's local agent skill library and normalized for the canonical Synthesis registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -355,6 +418,15 @@
         "upstream": "https://github.com/obra/superpowers/tree/main/skills/using-git-worktrees",
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -399,6 +471,15 @@
         "upstream": "https://github.com/obra/superpowers/tree/main/skills/verification-before-completion",
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -443,6 +524,15 @@
         "author": "Anthony Maio",
         "source": "C:/Users/Ant/.agents/skills/writing-clearly-and-concisely",
         "notes": "Curated from the maintainer's local agent skill library and normalized for the canonical Synthesis registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -487,6 +577,15 @@
         "upstream": "https://github.com/obra/superpowers/tree/main/skills/writing-plans",
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     },
     {
@@ -532,6 +631,15 @@
         "author": "Anthony Maio",
         "source": "C:/Users/Ant/.agents/skills/writing-skills",
         "notes": "Curated from the maintainer's local agent skill library and normalized for the canonical Synthesis registry."
+      },
+      "stss": {
+        "attestation_present": false,
+        "schema_version": null,
+        "algorithm": null,
+        "signing_key_id": null,
+        "policy_decision": null,
+        "llm_audit_performed": null,
+        "registry_audit_performed": null
       }
     }
   ]

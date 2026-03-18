@@ -17,10 +17,11 @@ Each skill package must look like:
 skills/<skill-name>/
 ├── SKILL.md
 ├── PROVENANCE.json
+├── attestation.json # optional STSS output tracked in the catalog
 ├── scripts/        # optional
 ├── assets/         # optional
 ├── references/     # optional
 └── agents/         # optional
 ```
 
-`PROVENANCE.json` records origin, authorship, and licensing context without bloating `SKILL.md`. Machine-readable search metadata is generated into the catalog.
+`PROVENANCE.json` records origin, authorship, and licensing context without bloating `SKILL.md`. `attestation.json` is optional and records STSS scan or signing output when available. Machine-readable search metadata, including STSS status, is generated into the catalog.

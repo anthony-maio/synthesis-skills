@@ -12,6 +12,7 @@ ALLOWED_SKILL_DIRS = {"scripts", "assets", "references", "agents"}
 NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 TOKEN_PATTERN = re.compile(r"[a-z0-9]+")
 PROVENANCE_KINDS = {"first_party", "mirrored_external", "adapted_external"}
+ATTESTATION_FILENAME = "attestation.json"
 STOP_WORDS = {
     "a",
     "an",
@@ -110,6 +111,48 @@ def load_provenance(skill_dir: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def load_attestation(skill_dir: Path) -> dict[str, Any]:
+    """Load optional STSS attestation metadata for a skill package."""
+    path = skill_dir / ATTESTATION_FILENAME
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def stss_metadata_from_attestation(attestation: dict[str, Any]) -> dict[str, Any]:
+    """Build normalized catalog metadata from an optional STSS attestation."""
+    if not attestation:
+        return {
+            "attestation_present": False,
+            "schema_version": None,
+            "algorithm": None,
+            "signing_key_id": None,
+            "policy_decision": None,
+            "llm_audit_performed": None,
+            "registry_audit_performed": None,
+        }
+
+    payload = attestation.get("attestation")
+    if not isinstance(payload, dict):
+        payload = {}
+    scan = payload.get("scan")
+    if not isinstance(scan, dict):
+        scan = {}
+    policy = payload.get("policy")
+    if not isinstance(policy, dict):
+        policy = {}
+
+    return {
+        "attestation_present": True,
+        "schema_version": payload.get("schemaVersion"),
+        "algorithm": attestation.get("algorithm"),
+        "signing_key_id": attestation.get("signingKeyId"),
+        "policy_decision": policy.get("decision"),
+        "llm_audit_performed": scan.get("llmAuditPerformed"),
+        "registry_audit_performed": scan.get("registryAuditPerformed"),
+    }
 
 
 def validate_skill_dir(skill_dir: Path) -> list[ValidationIssue]:
@@ -214,6 +257,49 @@ def validate_skill_dir(skill_dir: Path) -> list[ValidationIssue]:
                 )
             )
 
+    attestation_path = skill_dir / ATTESTATION_FILENAME
+    if not attestation_path.exists():
+        return issues
+
+    try:
+        attestation = load_attestation(skill_dir)
+    except json.JSONDecodeError:
+        issues.append(ValidationIssue(relative_str, f"{ATTESTATION_FILENAME} must be valid JSON"))
+        return issues
+
+    payload = attestation.get("attestation")
+    if not isinstance(payload, dict):
+        issues.append(
+            ValidationIssue(
+                relative_str,
+                f"{ATTESTATION_FILENAME} must include an attestation object",
+            )
+        )
+        payload = {}
+
+    if not payload.get("schemaVersion"):
+        issues.append(
+            ValidationIssue(
+                relative_str,
+                f"{ATTESTATION_FILENAME} must include attestation.schemaVersion",
+            )
+        )
+
+    if not attestation.get("signature"):
+        issues.append(
+            ValidationIssue(relative_str, f"{ATTESTATION_FILENAME} must include signature")
+        )
+
+    if not attestation.get("signingKeyId"):
+        issues.append(
+            ValidationIssue(relative_str, f"{ATTESTATION_FILENAME} must include signingKeyId")
+        )
+
+    if not attestation.get("algorithm"):
+        issues.append(
+            ValidationIssue(relative_str, f"{ATTESTATION_FILENAME} must include algorithm")
+        )
+
     return issues
 
 
@@ -223,6 +309,7 @@ def discover_skill_entry(skill_dir: Path, repo_slug: str) -> dict[str, Any]:
     metadata = parse_front_matter(text)
     body = body_without_front_matter(text)
     provenance = load_provenance(skill_dir)
+    attestation = load_attestation(skill_dir)
     relative_path = str(skill_dir.relative_to(skill_dir.parents[1]).as_posix())
     package_dirs = sorted(path.name for path in skill_dir.iterdir() if path.is_dir())
     keyword_source = " ".join([skill_dir.name, metadata["name"], metadata["description"], body])
@@ -239,6 +326,7 @@ def discover_skill_entry(skill_dir: Path, repo_slug: str) -> dict[str, Any]:
         "package_dirs": package_dirs,
         "upstream": provenance.get("upstream") or provenance.get("source"),
         "provenance": provenance,
+        "stss": stss_metadata_from_attestation(attestation),
     }
 
 
