@@ -52,15 +52,15 @@ body:
     id: nearest_existing
     attributes:
       label: Nearest existing canonical skill
-      description: Name the closest current skill, if any.
+      description: Required unless this is a new family candidate.
       placeholder: systematic-debugging
-    validations:
+      validations:
       required: false
   - type: textarea
     id: evidence
     attributes:
       label: Evidence
-      description: Explain why this is worth curating and what proof supports it.
+      description: Required for challenger-style review. Explain why this is worth curating and what proof supports it.
       placeholder: Real task evidence, eval notes, overlap analysis...
     validations:
       required: true

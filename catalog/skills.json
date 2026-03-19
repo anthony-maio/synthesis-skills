@@ -1,7 +1,94 @@
 {
   "repo": "anthony-maio/synthesis-skills",
   "schema_version": 1,
+  "family_count": 12,
   "skill_count": 12,
+  "families": [
+    {
+      "capability_family": "deep-research-synthesizer",
+      "canonical_skill": "deep-research-synthesizer",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "dispatching-parallel-agents",
+      "canonical_skill": "dispatching-parallel-agents",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "receiving-code-review",
+      "canonical_skill": "receiving-code-review",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "repo-surveyor",
+      "canonical_skill": "repo-surveyor",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "requesting-code-review",
+      "canonical_skill": "requesting-code-review",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "systematic-debugging",
+      "canonical_skill": "systematic-debugging",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "test-driven-development",
+      "canonical_skill": "test-driven-development",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "using-git-worktrees",
+      "canonical_skill": "using-git-worktrees",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "verification-before-completion",
+      "canonical_skill": "verification-before-completion",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "writing-clearly-and-concisely",
+      "canonical_skill": "writing-clearly-and-concisely",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "writing-plans",
+      "canonical_skill": "writing-plans",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    },
+    {
+      "capability_family": "writing-skills",
+      "canonical_skill": "writing-skills",
+      "canonical_trust_level": "trusted",
+      "challengers": [],
+      "variants": []
+    }
+  ],
   "skills": [
     {
       "name": "deep-research-synthesizer",
@@ -55,7 +142,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -116,7 +206,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -177,7 +270,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -236,7 +332,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -297,7 +396,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -359,7 +461,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -420,7 +525,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -481,7 +589,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -542,7 +653,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -603,7 +717,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -664,7 +781,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,
@@ -726,7 +846,10 @@
         "trust_level": "trusted",
         "is_primary": true,
         "variant_of": null,
-        "supersedes": []
+        "supersedes": [],
+        "submission_type": null,
+        "nearest_canonical": null,
+        "evidence_summary": null
       },
       "stss": {
         "attestation_present": false,

@@ -26,6 +26,7 @@ def test_catalog_contains_seed_batch() -> None:
     catalog = build_catalog(ROOT, "anthony-maio/synthesis-skills")
 
     assert catalog["skill_count"] == len(SEEDED_SKILLS)
+    assert catalog["family_count"] == len(SEEDED_SKILLS)
     assert {entry["name"] for entry in catalog["skills"]} == SEEDED_SKILLS
     deep_research = next(
         entry for entry in catalog["skills"] if entry["name"] == "deep-research-synthesizer"
@@ -50,6 +51,13 @@ def test_catalog_contains_seed_batch() -> None:
     assert deep_research["governance"]["lifecycle_stage"] == "canonical"
     assert deep_research["governance"]["capability_family"] == "deep-research-synthesizer"
     assert deep_research["governance"]["is_primary"] is True
+    family = next(
+        item
+        for item in catalog["families"]
+        if item["capability_family"] == "deep-research-synthesizer"
+    )
+    assert family["canonical_skill"] == "deep-research-synthesizer"
+    assert family["challengers"] == []
 
 
 def test_skill_discovery_finds_top_level_package() -> None:
@@ -135,6 +143,7 @@ def test_catalog_includes_stss_metadata_when_attestation_exists(tmp_path: Path) 
     catalog = build_catalog(tmp_path, "anthony-maio/synthesis-skills")
 
     assert catalog["skill_count"] == 1
+    assert catalog["family_count"] == 1
     entry = catalog["skills"][0]
     assert entry["name"] == "signed-skill"
     assert entry["trust_level"] == "trusted"
@@ -145,6 +154,9 @@ def test_catalog_includes_stss_metadata_when_attestation_exists(tmp_path: Path) 
         "is_primary": True,
         "variant_of": None,
         "supersedes": [],
+        "submission_type": None,
+        "nearest_canonical": None,
+        "evidence_summary": None,
     }
     assert entry["stss"] == {
         "attestation_present": True,
@@ -155,3 +167,12 @@ def test_catalog_includes_stss_metadata_when_attestation_exists(tmp_path: Path) 
         "llm_audit_performed": False,
         "registry_audit_performed": True,
     }
+    assert catalog["families"] == [
+        {
+            "capability_family": "signed-skill",
+            "canonical_skill": "signed-skill",
+            "canonical_trust_level": "trusted",
+            "challengers": [],
+            "variants": [],
+        }
+    ]

@@ -16,6 +16,12 @@ ATTESTATION_FILENAME = "attestation.json"
 REGISTRY_FILENAME = "REGISTRY.json"
 LIFECYCLE_STAGES = {"draft", "challenger", "canonical", "deprecated"}
 TRUST_LEVELS = {"untrusted", "probation", "trusted", "verified"}
+SUBMISSION_TYPES = {
+    "new_family_candidate",
+    "canonical_improvement_candidate",
+    "variant_candidate",
+    "supersedes_existing",
+}
 STOP_WORDS = {
     "a",
     "an",
@@ -175,6 +181,9 @@ def governance_metadata_from_registry(metadata: dict[str, Any]) -> dict[str, Any
         "is_primary": metadata.get("is_primary"),
         "variant_of": metadata.get("variant_of"),
         "supersedes": metadata.get("supersedes", []),
+        "submission_type": metadata.get("submission_type"),
+        "nearest_canonical": metadata.get("nearest_canonical"),
+        "evidence_summary": metadata.get("evidence_summary"),
     }
 
 
@@ -350,6 +359,32 @@ def validate_skill_dir(skill_dir: Path) -> list[ValidationIssue]:
             )
         )
 
+    submission_type = registry.get("submission_type")
+    if submission_type is not None and submission_type not in SUBMISSION_TYPES:
+        issues.append(
+            ValidationIssue(
+                relative_str,
+                f"{REGISTRY_FILENAME} submission_type must be one of: "
+                "new_family_candidate, canonical_improvement_candidate, "
+                "variant_candidate, supersedes_existing",
+            )
+        )
+
+    nearest_canonical = registry.get("nearest_canonical")
+    if nearest_canonical is not None and not NAME_PATTERN.fullmatch(str(nearest_canonical)):
+        issues.append(
+            ValidationIssue(
+                relative_str,
+                f"{REGISTRY_FILENAME} nearest_canonical must be null or lowercase kebab-case",
+            )
+        )
+
+    evidence_summary = registry.get("evidence_summary")
+    if evidence_summary is not None and not str(evidence_summary).strip():
+        issues.append(
+            ValidationIssue(relative_str, f"{REGISTRY_FILENAME} evidence_summary must not be empty")
+        )
+
     attestation_path = skill_dir / ATTESTATION_FILENAME
     if not attestation_path.exists():
         return issues
@@ -425,13 +460,176 @@ def discover_skill_entry(skill_dir: Path, repo_slug: str) -> dict[str, Any]:
     }
 
 
+def build_family_index(skills: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Build a family-centric view of canonical skills, challengers, and variants."""
+    families: dict[str, dict[str, Any]] = {}
+    for skill in skills:
+        governance = skill["governance"]
+        family_name = governance["capability_family"]
+        family = families.setdefault(
+            family_name,
+            {
+                "capability_family": family_name,
+                "canonical_skill": None,
+                "canonical_trust_level": None,
+                "challengers": [],
+                "variants": [],
+            },
+        )
+
+        if governance["lifecycle_stage"] == "canonical" and governance["is_primary"]:
+            family["canonical_skill"] = skill["name"]
+            family["canonical_trust_level"] = skill["trust_level"]
+        elif governance["lifecycle_stage"] == "challenger":
+            family["challengers"].append(skill["name"])
+
+        if governance["variant_of"]:
+            family["variants"].append(skill["name"])
+
+    return [families[name] for name in sorted(families)]
+
+
+def validate_registry_governance(root: Path) -> list[ValidationIssue]:
+    """Validate repo-wide governance rules across all skill packages."""
+    issues: list[ValidationIssue] = []
+    entries: list[tuple[Path, dict[str, Any]]] = []
+    family_to_primary: dict[str, list[str]] = {}
+    canonical_by_family: dict[str, list[str]] = {}
+    all_skill_names: set[str] = set()
+
+    for skill_dir in iter_skill_dirs(root):
+        registry = load_registry_metadata(skill_dir)
+        if not registry:
+            continue
+        entries.append((skill_dir, registry))
+        all_skill_names.add(skill_dir.name)
+
+        family = registry.get("capability_family")
+        if not family:
+            continue
+        if registry.get("lifecycle_stage") == "canonical":
+            canonical_by_family.setdefault(family, []).append(skill_dir.name)
+            if registry.get("is_primary") is True:
+                family_to_primary.setdefault(family, []).append(skill_dir.name)
+
+    for family, primaries in sorted(family_to_primary.items()):
+        if len(primaries) > 1:
+            issues.append(
+                ValidationIssue(
+                    f"skills/{family}",
+                    f"capability family {family} has more than one primary canonical skill",
+                )
+            )
+
+    for skill_dir, registry in entries:
+        relative = str(skill_dir.relative_to(root).as_posix())
+        stage = registry.get("lifecycle_stage")
+        trust_level = registry.get("trust_level")
+        is_primary = registry.get("is_primary")
+        family = registry.get("capability_family")
+        submission_type = registry.get("submission_type")
+        nearest_canonical = registry.get("nearest_canonical")
+        evidence_summary = registry.get("evidence_summary")
+        variant_of = registry.get("variant_of")
+
+        if stage == "canonical":
+            if is_primary is not True:
+                issues.append(
+                    ValidationIssue(relative, "canonical skills must set is_primary to true")
+                )
+            if trust_level not in {"trusted", "verified"}:
+                issues.append(
+                    ValidationIssue(
+                        relative,
+                        "canonical skills must use trust_level trusted or verified",
+                    )
+                )
+
+        if stage == "challenger":
+            if is_primary is not False:
+                issues.append(
+                    ValidationIssue(relative, "challenger skills must set is_primary to false")
+                )
+            if trust_level != "probation":
+                issues.append(
+                    ValidationIssue(
+                        relative,
+                        "challenger skills must use trust_level probation",
+                    )
+                )
+            if submission_type is None:
+                issues.append(
+                    ValidationIssue(
+                        relative,
+                        f"challenger skill {skill_dir.name} must declare submission_type",
+                    )
+                )
+            if not evidence_summary:
+                issues.append(
+                    ValidationIssue(
+                        relative,
+                        f"challenger skill {skill_dir.name} must include evidence_summary",
+                    )
+                )
+            if submission_type != "new_family_candidate" and not nearest_canonical:
+                issues.append(
+                    ValidationIssue(
+                        relative,
+                        "challenger skill "
+                        f"{skill_dir.name} must reference nearest_canonical unless "
+                        "it is a new family candidate",
+                    )
+                )
+            if submission_type == "new_family_candidate" and family in canonical_by_family:
+                issues.append(
+                    ValidationIssue(
+                        relative,
+                        f"challenger skill {skill_dir.name} cannot use new_family_candidate "
+                        f"because capability family {family} already has a canonical skill",
+                    )
+                )
+            if submission_type in {
+                "canonical_improvement_candidate",
+                "variant_candidate",
+                "supersedes_existing",
+            } and family not in canonical_by_family:
+                issues.append(
+                    ValidationIssue(
+                        relative,
+                        f"challenger skill {skill_dir.name} must target a family "
+                        "with an existing canonical skill",
+                    )
+                )
+            if nearest_canonical and nearest_canonical not in all_skill_names:
+                issues.append(
+                    ValidationIssue(
+                        relative,
+                        f"challenger skill {skill_dir.name} references unknown "
+                        f"nearest_canonical {nearest_canonical}",
+                    )
+                )
+            if submission_type == "variant_candidate" and not variant_of:
+                issues.append(
+                    ValidationIssue(
+                        relative,
+                        f"challenger skill {skill_dir.name} must set variant_of "
+                        "for variant_candidate",
+                    )
+                )
+
+    return issues
+
+
 def build_catalog(root: Path, repo_slug: str) -> dict[str, Any]:
     """Build the complete catalog document."""
     skills = [discover_skill_entry(skill_dir, repo_slug) for skill_dir in iter_skill_dirs(root)]
+    families = build_family_index(skills)
     return {
         "repo": repo_slug,
         "schema_version": 1,
+        "family_count": len(families),
         "skill_count": len(skills),
+        "families": families,
         "skills": skills,
     }
 

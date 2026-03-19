@@ -12,7 +12,12 @@ def main() -> int:
     if str(script_dir) not in sys.path:
         sys.path.insert(0, str(script_dir))
 
-    from catalog_tools import iter_skill_dirs, repo_root_from, validate_skill_dir
+    from catalog_tools import (
+        iter_skill_dirs,
+        repo_root_from,
+        validate_registry_governance,
+        validate_skill_dir,
+    )
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -36,6 +41,7 @@ def main() -> int:
     failures = []
     for skill_dir in skill_dirs:
         failures.extend(validate_skill_dir(skill_dir))
+    failures.extend(validate_registry_governance(root))
 
     if failures:
         for failure in failures:

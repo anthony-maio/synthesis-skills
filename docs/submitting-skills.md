@@ -48,6 +48,26 @@ If your skill includes `attestation.json`, make sure the registry maintainers ha
 - Human review is still required for quality, licensing, and fit.
 - Canonical duplicates should not merge. New submissions should usually improve an existing family or justify a genuinely new one.
 
+## Challenger Workflow
+
+If a submission is trying to compete with or improve the current canon, treat it as a challenger:
+
+- set `lifecycle_stage` to `challenger`
+- set `trust_level` to `probation`
+- set `is_primary` to `false`
+- include `submission_type`
+- include `evidence_summary`
+- include `nearest_canonical` unless this is a `new_family_candidate`
+
+Current submission types:
+
+- `new_family_candidate`
+- `canonical_improvement_candidate`
+- `variant_candidate`
+- `supersedes_existing`
+
+Repo-wide validation enforces one primary canonical skill per capability family and rejects malformed challengers.
+
 ## Agent-Generated Skills
 
 When Synthesis generates a new skill from task work, treat that submission as a draft proposal:
@@ -66,6 +86,7 @@ When Synthesis generates a new skill from task work, treat that submission as a 
 - the registry metadata is coherent
 - helper scripts are scoped to the skill
 - the generated catalog reflects the submitted skill state
+- the family-level catalog view reflects the right canonical or challenger state
 - provenance is clear enough for curation
 - STSS scan output is clean for the changed skill package
 - attested skills can be verified with the configured public key set

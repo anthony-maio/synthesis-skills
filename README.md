@@ -58,6 +58,7 @@ python scripts/build_catalog.py --check
 - Lifecycle stage is tracked separately from trust level.
 - The canonical registry is optimized for one primary skill per capability family.
 - Drafts and challengers may exist, but canonical duplicates should not.
+- Family-level catalog data tracks the current canon plus any challengers under review.
 
 - `UNTRUSTED`: local drafts in agent environments, not curated here yet
 - `PROBATION`: proposed in an open PR or being prepared for review
@@ -87,6 +88,7 @@ This repository primarily stores curated `TRUSTED` skills plus the automation ne
 - Structural validation, catalog freshness, tests, provenance review, and human curation remain required for merge.
 - Agent-generated skills should be treated as draft proposals until they clear review, even if they include an attestation.
 - `REGISTRY.json` is the source of truth for lifecycle stage, trust level, and capability family.
+- Challenger submissions must explain how they relate to the current canon and why they should exist.
 
 ## Submission Path
 
