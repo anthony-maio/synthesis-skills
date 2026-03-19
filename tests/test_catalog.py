@@ -46,6 +46,10 @@ def test_catalog_contains_seed_batch() -> None:
     planning = next(entry for entry in catalog["skills"] if entry["name"] == "writing-plans")
     assert planning["provenance"]["kind"] == "mirrored_external"
     assert planning["upstream"] == "https://github.com/obra/superpowers/tree/main/skills/writing-plans"
+    assert deep_research["trust_level"] == "trusted"
+    assert deep_research["governance"]["lifecycle_stage"] == "canonical"
+    assert deep_research["governance"]["capability_family"] == "deep-research-synthesizer"
+    assert deep_research["governance"]["is_primary"] is True
 
 
 def test_skill_discovery_finds_top_level_package() -> None:
@@ -94,6 +98,19 @@ def test_catalog_includes_stss_metadata_when_attestation_exists(tmp_path: Path) 
         ),
         encoding="utf-8",
     )
+    (skill_dir / "REGISTRY.json").write_text(
+        json.dumps(
+            {
+                "capability_family": "signed-skill",
+                "lifecycle_stage": "canonical",
+                "trust_level": "trusted",
+                "is_primary": True,
+                "variant_of": None,
+                "supersedes": [],
+            }
+        ),
+        encoding="utf-8",
+    )
     (skill_dir / "attestation.json").write_text(
         json.dumps(
             {
@@ -120,6 +137,15 @@ def test_catalog_includes_stss_metadata_when_attestation_exists(tmp_path: Path) 
     assert catalog["skill_count"] == 1
     entry = catalog["skills"][0]
     assert entry["name"] == "signed-skill"
+    assert entry["trust_level"] == "trusted"
+    assert entry["governance"] == {
+        "capability_family": "signed-skill",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": True,
+        "variant_of": None,
+        "supersedes": [],
+    }
     assert entry["stss"] == {
         "attestation_present": True,
         "schema_version": "1.0.0",

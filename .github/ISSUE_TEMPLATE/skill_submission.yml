@@ -28,6 +28,42 @@ body:
       placeholder: Derived from...
     validations:
       required: true
+  - type: dropdown
+    id: submission_type
+    attributes:
+      label: Submission type
+      description: How should reviewers think about this skill relative to the current canon?
+      options:
+        - new_family_candidate
+        - canonical_improvement_candidate
+        - variant_candidate
+        - supersedes_existing
+    validations:
+      required: true
+  - type: input
+    id: capability_family
+    attributes:
+      label: Capability family
+      description: The durable family this skill belongs to or proposes.
+      placeholder: test-driven-development
+    validations:
+      required: true
+  - type: input
+    id: nearest_existing
+    attributes:
+      label: Nearest existing canonical skill
+      description: Name the closest current skill, if any.
+      placeholder: systematic-debugging
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Explain why this is worth curating and what proof supports it.
+      placeholder: Real task evidence, eval notes, overlap analysis...
+    validations:
+      required: true
   - type: textarea
     id: package_shape
     attributes:

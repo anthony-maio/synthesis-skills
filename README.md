@@ -26,6 +26,7 @@ synthesis-skills/
 - Each skill lives at `skills/<skill-name>/`.
 - Each skill must include `SKILL.md`.
 - Each skill must include `PROVENANCE.json`.
+- Each skill must include `REGISTRY.json`.
 - Each skill may include `attestation.json` from STSS.
 - Optional directories are `scripts/`, `assets/`, `references/`, and `agents/`.
 - Skill front matter is intentionally small: `name` and `description`.
@@ -54,6 +55,10 @@ python scripts/build_catalog.py --check
 
 ## Governance Model
 
+- Lifecycle stage is tracked separately from trust level.
+- The canonical registry is optimized for one primary skill per capability family.
+- Drafts and challengers may exist, but canonical duplicates should not.
+
 - `UNTRUSTED`: local drafts in agent environments, not curated here yet
 - `PROBATION`: proposed in an open PR or being prepared for review
 - `TRUSTED`: merged curated skills in this repository
@@ -67,6 +72,21 @@ This repository primarily stores curated `TRUSTED` skills plus the automation ne
 - `attestation.json` is optional, but when present CI also runs `stss verify`.
 - `catalog/skills.json` records whether a skill has an attestation plus its signing and policy metadata.
 - Verification keys can be supplied through `STSS_PUBLIC_KEYS_JSON` or `STSS_PUBLIC_KEY` in GitHub Actions secrets.
+
+## Provenance vs Attestation
+
+- `PROVENANCE.json` records who authored the skill, where it came from, and what license applies.
+- `attestation.json` records that the exact package snapshot in this registry was scanned or signed by the Synthesis registry process.
+- A registry attestation does not imply original authorship or upstream endorsement.
+- Mirrored and adapted external skills may carry registry attestations as long as their provenance remains explicit.
+
+## Submission Policy
+
+- Today, STSS scanning is required in CI for every changed skill package.
+- Today, signing is optional. If `attestation.json` is present, CI verifies it.
+- Structural validation, catalog freshness, tests, provenance review, and human curation remain required for merge.
+- Agent-generated skills should be treated as draft proposals until they clear review, even if they include an attestation.
+- `REGISTRY.json` is the source of truth for lifecycle stage, trust level, and capability family.
 
 ## Submission Path
 

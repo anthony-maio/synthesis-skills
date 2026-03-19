@@ -49,6 +49,14 @@
         "source_license": "MIT",
         "notes": "Curated from a separate Anthony Maio skill repository and normalized for the canonical Synthesis registry."
       },
+      "governance": {
+        "capability_family": "deep-research-synthesizer",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
+      },
       "stss": {
         "attestation_present": false,
         "schema_version": null,
@@ -101,6 +109,14 @@
         "upstream": "https://github.com/obra/superpowers/tree/main/skills/dispatching-parallel-agents",
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+      },
+      "governance": {
+        "capability_family": "dispatching-parallel-agents",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
       },
       "stss": {
         "attestation_present": false,
@@ -155,6 +171,14 @@
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
       },
+      "governance": {
+        "capability_family": "receiving-code-review",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
+      },
       "stss": {
         "attestation_present": false,
         "schema_version": null,
@@ -205,6 +229,14 @@
         "author": "Anthony Maio",
         "source": "C:/Users/Ant/.agents/skills/repo-surveyor",
         "notes": "Curated from the maintainer's local agent skill library and normalized for the canonical Synthesis registry."
+      },
+      "governance": {
+        "capability_family": "repo-surveyor",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
       },
       "stss": {
         "attestation_present": false,
@@ -258,6 +290,14 @@
         "upstream": "https://github.com/obra/superpowers/tree/main/skills/requesting-code-review",
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+      },
+      "governance": {
+        "capability_family": "requesting-code-review",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
       },
       "stss": {
         "attestation_present": false,
@@ -313,6 +353,14 @@
         "source": "C:/Users/Ant/.agents/skills/systematic-debugging",
         "notes": "Curated from the maintainer's local agent skill library and normalized for the canonical Synthesis registry."
       },
+      "governance": {
+        "capability_family": "systematic-debugging",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
+      },
       "stss": {
         "attestation_present": false,
         "schema_version": null,
@@ -365,6 +413,14 @@
         "author": "Anthony Maio",
         "source": "C:/Users/Ant/.agents/skills/test-driven-development",
         "notes": "Curated from the maintainer's local agent skill library and normalized for the canonical Synthesis registry."
+      },
+      "governance": {
+        "capability_family": "test-driven-development",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
       },
       "stss": {
         "attestation_present": false,
@@ -419,6 +475,14 @@
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
       },
+      "governance": {
+        "capability_family": "using-git-worktrees",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
+      },
       "stss": {
         "attestation_present": false,
         "schema_version": null,
@@ -471,6 +535,14 @@
         "upstream": "https://github.com/obra/superpowers/tree/main/skills/verification-before-completion",
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+      },
+      "governance": {
+        "capability_family": "verification-before-completion",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
       },
       "stss": {
         "attestation_present": false,
@@ -525,6 +597,14 @@
         "source": "C:/Users/Ant/.agents/skills/writing-clearly-and-concisely",
         "notes": "Curated from the maintainer's local agent skill library and normalized for the canonical Synthesis registry."
       },
+      "governance": {
+        "capability_family": "writing-clearly-and-concisely",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
+      },
       "stss": {
         "attestation_present": false,
         "schema_version": null,
@@ -577,6 +657,14 @@
         "upstream": "https://github.com/obra/superpowers/tree/main/skills/writing-plans",
         "source_license": "MIT",
         "notes": "Mirrored from obra/superpowers for curated use in the Synthesis canonical registry."
+      },
+      "governance": {
+        "capability_family": "writing-plans",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
       },
       "stss": {
         "attestation_present": false,
@@ -631,6 +719,14 @@
         "author": "Anthony Maio",
         "source": "C:/Users/Ant/.agents/skills/writing-skills",
         "notes": "Curated from the maintainer's local agent skill library and normalized for the canonical Synthesis registry."
+      },
+      "governance": {
+        "capability_family": "writing-skills",
+        "lifecycle_stage": "canonical",
+        "trust_level": "trusted",
+        "is_primary": true,
+        "variant_of": null,
+        "supersedes": []
       },
       "stss": {
         "attestation_present": false,

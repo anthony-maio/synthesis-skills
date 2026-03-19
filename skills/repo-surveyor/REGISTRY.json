@@ -1,0 +1,8 @@
+{
+  "capability_family": "repo-surveyor",
+  "lifecycle_stage": "canonical",
+  "trust_level": "trusted",
+  "is_primary": true,
+  "variant_of": null,
+  "supersedes": []
+}

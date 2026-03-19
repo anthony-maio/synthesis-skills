@@ -13,6 +13,9 @@ NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 TOKEN_PATTERN = re.compile(r"[a-z0-9]+")
 PROVENANCE_KINDS = {"first_party", "mirrored_external", "adapted_external"}
 ATTESTATION_FILENAME = "attestation.json"
+REGISTRY_FILENAME = "REGISTRY.json"
+LIFECYCLE_STAGES = {"draft", "challenger", "canonical", "deprecated"}
+TRUST_LEVELS = {"untrusted", "probation", "trusted", "verified"}
 STOP_WORDS = {
     "a",
     "an",
@@ -121,6 +124,14 @@ def load_attestation(skill_dir: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def load_registry_metadata(skill_dir: Path) -> dict[str, Any]:
+    """Load required registry governance metadata for a skill package."""
+    path = skill_dir / REGISTRY_FILENAME
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def stss_metadata_from_attestation(attestation: dict[str, Any]) -> dict[str, Any]:
     """Build normalized catalog metadata from an optional STSS attestation."""
     if not attestation:
@@ -152,6 +163,18 @@ def stss_metadata_from_attestation(attestation: dict[str, Any]) -> dict[str, Any
         "policy_decision": policy.get("decision"),
         "llm_audit_performed": scan.get("llmAuditPerformed"),
         "registry_audit_performed": scan.get("registryAuditPerformed"),
+    }
+
+
+def governance_metadata_from_registry(metadata: dict[str, Any]) -> dict[str, Any]:
+    """Build normalized governance metadata from required registry metadata."""
+    return {
+        "capability_family": metadata.get("capability_family"),
+        "lifecycle_stage": metadata.get("lifecycle_stage"),
+        "trust_level": metadata.get("trust_level"),
+        "is_primary": metadata.get("is_primary"),
+        "variant_of": metadata.get("variant_of"),
+        "supersedes": metadata.get("supersedes", []),
     }
 
 
@@ -257,6 +280,76 @@ def validate_skill_dir(skill_dir: Path) -> list[ValidationIssue]:
                 )
             )
 
+    registry_path = skill_dir / REGISTRY_FILENAME
+    if not registry_path.exists():
+        issues.append(ValidationIssue(relative_str, f"missing {REGISTRY_FILENAME}"))
+        return issues
+
+    try:
+        registry = load_registry_metadata(skill_dir)
+    except json.JSONDecodeError:
+        issues.append(ValidationIssue(relative_str, f"{REGISTRY_FILENAME} must be valid JSON"))
+        return issues
+
+    capability_family = registry.get("capability_family")
+    if not capability_family:
+        issues.append(
+            ValidationIssue(relative_str, f"{REGISTRY_FILENAME} must include capability_family")
+        )
+    elif not NAME_PATTERN.fullmatch(str(capability_family)):
+        issues.append(
+            ValidationIssue(
+                relative_str,
+                f"{REGISTRY_FILENAME} capability_family must use lowercase kebab-case",
+            )
+        )
+
+    lifecycle_stage = registry.get("lifecycle_stage")
+    if lifecycle_stage not in LIFECYCLE_STAGES:
+        issues.append(
+            ValidationIssue(
+                relative_str,
+                f"{REGISTRY_FILENAME} lifecycle_stage must be one of: "
+                "draft, challenger, canonical, deprecated",
+            )
+        )
+
+    trust_level = registry.get("trust_level")
+    if trust_level not in TRUST_LEVELS:
+        issues.append(
+            ValidationIssue(
+                relative_str,
+                f"{REGISTRY_FILENAME} trust_level must be one of: "
+                "untrusted, probation, trusted, verified",
+            )
+        )
+
+    is_primary = registry.get("is_primary")
+    if not isinstance(is_primary, bool):
+        issues.append(
+            ValidationIssue(relative_str, f"{REGISTRY_FILENAME} is_primary must be a boolean")
+        )
+
+    variant_of = registry.get("variant_of")
+    if variant_of is not None and not NAME_PATTERN.fullmatch(str(variant_of)):
+        issues.append(
+            ValidationIssue(
+                relative_str,
+                f"{REGISTRY_FILENAME} variant_of must be null or lowercase kebab-case",
+            )
+        )
+
+    supersedes = registry.get("supersedes", [])
+    if not isinstance(supersedes, list) or any(
+        not isinstance(name, str) or not NAME_PATTERN.fullmatch(name) for name in supersedes
+    ):
+        issues.append(
+            ValidationIssue(
+                relative_str,
+                f"{REGISTRY_FILENAME} supersedes must be a list of lowercase kebab-case names",
+            )
+        )
+
     attestation_path = skill_dir / ATTESTATION_FILENAME
     if not attestation_path.exists():
         return issues
@@ -309,6 +402,7 @@ def discover_skill_entry(skill_dir: Path, repo_slug: str) -> dict[str, Any]:
     metadata = parse_front_matter(text)
     body = body_without_front_matter(text)
     provenance = load_provenance(skill_dir)
+    governance = load_registry_metadata(skill_dir)
     attestation = load_attestation(skill_dir)
     relative_path = str(skill_dir.relative_to(skill_dir.parents[1]).as_posix())
     package_dirs = sorted(path.name for path in skill_dir.iterdir() if path.is_dir())
@@ -319,13 +413,14 @@ def discover_skill_entry(skill_dir: Path, repo_slug: str) -> dict[str, Any]:
         "name": metadata["name"],
         "description": metadata["description"],
         "keywords": keywords,
-        "trust_level": "trusted",
+        "trust_level": governance.get("trust_level", "trusted"),
         "source_type": "canonical",
         "relative_path": relative_path,
         "repo": repo_slug,
         "package_dirs": package_dirs,
         "upstream": provenance.get("upstream") or provenance.get("source"),
         "provenance": provenance,
+        "governance": governance_metadata_from_registry(governance),
         "stss": stss_metadata_from_attestation(attestation),
     }
 
